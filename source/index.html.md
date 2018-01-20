@@ -3,12 +3,10 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='http://heartzones-dev.us-east-1.elasticbeanstalk.com/'>Project Site</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -19,221 +17,186 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Welcome to the HeartZones API!
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl "/api/user"
+  -H "Authorization: Bearer {token}"
 ```
 
-```javascript
-const kittn = require('kittn');
+HeartZones uses API JWT tokens to allow access to the API.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+The API expects for the token to be included in all authenticated API requests to the server in a header that looks like the following:
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Bearer {token}}`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>token</code> with user's JWT token.
 </aside>
 
-# Kittens
+# Users
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Register
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "http://localost/api/users/register"
+  -H "Authorization: Bearer {token}"
 ```
 
-```javascript
-const kittn = require('kittn');
+> The above command returns JSON structured like this:
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+```json
+{
+    "_id": "5a6375a6e1986a50012351c8",
+    "updatedAt": "2018-01-20T17:00:22.642Z",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
+    "__v": 0,
+    "address": {
+        "createdAt": "2018-01-20T17:00:17.383Z"
+    },
+    "createdAt": "2018-01-20T17:00:17.383Z",
+    "passwordReset": false,
+    "deleted": false,
+    "accessLevel": 0,
+    "type": 0,
+    "lastName": "simons",
+    "firstName": "tony",
+    "email": "tony@thevalyreangroup.com"
+}
+```
+
+This endpoint registers a new user and then automatically logs that instance in to the session. All properties in the model (user.js) are allowed and may be included.
+
+### HTTP Request
+
+`POST http://localhost/api/users/register`
+
+### Request Body
+
+Parameter | Default | Description | Required
+--------- | ------- | ----------- | --------
+username |  | The user's email. | true
+password |  |  | true
+firstName |  |  | true
+lastName |  |  | true
+
+<aside class="success">
+We do not store passwords. They are hashed and returned as a JWT.
+</aside>
+
+
+## Retrieve all users
+
+```shell
+curl "http://localost/api/users"
+  -H "Authorization: Bearer {token}"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 [
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
+    {
+        "_id": "5a6375a6e1986a50012351c8",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "accessLevel": 0,
+        "type": 0,
+        "lastName": "simons",
+        "firstName": "tony",
+        "email": "tony@thevalyreangroup4.com"
+    },
+    {
+        "_id": "5a6375a6e1986a50012351c8",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "accessLevel": 0,
+        "type": 0,
+        "lastName": "simons",
+        "firstName": "tony",
+        "email": "tony@thevalyreangroup5.com"
+    }
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all users.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://example.com/api/users`
 
-### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Get a Specific User
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl "http://localost/api/users/v"
+  -H "Authorization: Bearer {token}"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "_id": "5a6375a6e1986a50012351c8",
+    "updatedAt": "2018-01-20T17:00:22.642Z",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
+    "__v": 0,
+    "address": {
+        "createdAt": "2018-01-20T17:00:17.383Z"
+    },
+    "createdAt": "2018-01-20T17:00:17.383Z",
+    "passwordReset": false,
+    "deleted": false,
+    "accessLevel": 0,
+    "type": 0,
+    "lastName": "simons",
+    "firstName": "tony",
+    "email": "tony@thevalyreangroup.com"
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint takes the user's id as a query paramater and returns the full user object.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET http://localhost/api/users/<id>`
 
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Delete a Specific User
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+curl "http://localost/api/users/<id>"
+  -H "Authorization: Bearer {token}"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+    "message": "User deleted successfully."
 }
 ```
 
-This endpoint deletes a specific kitten.
+This endpoint takes the user's id as a query parameter and returns `200` if successful.
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+`DELETE http://localhost/api/users/<id>`
