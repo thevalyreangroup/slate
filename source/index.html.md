@@ -76,7 +76,7 @@ This endpoint registers a new user and then automatically logs that instance in 
 
 `POST http://localhost/api/users/register`
 
-### Request Body
+### Payload parameters
 
 Parameter | Required
 --------- | --------
@@ -200,3 +200,44 @@ This endpoint takes the user's id as a query parameter and returns `200` if succ
 ### HTTP Request
 
 `DELETE http://localhost/api/users/<id>`
+
+## Update a Specific User
+
+```shell
+curl "http://localost/api/users/<id>"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "_id": "5a6375a6e1986a50012351c8",
+    "updatedAt": "2018-01-20T17:00:22.642Z",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
+    "__v": 0,
+    "address": {
+        "createdAt": "2018-01-20T17:00:17.383Z"
+    },
+    "createdAt": "2018-01-20T17:00:17.383Z",
+    "passwordReset": false,
+    "deleted": false,
+    "accessLevel": 1,
+    "type": 0,
+    "lastName": "simons",
+    "firstName": "tony",
+    "email": "tony@thevalyreangroup.com"
+}
+```
+
+This endpoint takes the user's id as a query paramater and returns the new user object after saving.
+
+### HTTP Request
+
+`PUT http://localhost/api/users/<id>`
+
+### Payload parameters
+
+Parameter | Type
+--------- | ---- 
+accessLevel | true
