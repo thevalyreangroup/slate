@@ -78,12 +78,12 @@ This endpoint registers a new user and then automatically logs that instance in 
 
 ### Request Body
 
-Parameter | Default | Description | Required
---------- | ------- | ----------- | --------
-username |  | The user's email. | true
-password |  |  | true
-firstName |  |  | true
-lastName |  |  | true
+Parameter | Required
+--------- | --------
+email | true
+password | true
+firstName | true
+lastName | true
 
 <aside class="success">
 We do not store passwords. They are hashed and returned as a JWT.
