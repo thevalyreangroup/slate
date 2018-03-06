@@ -153,7 +153,7 @@ curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b"
 }
 ```
 
-This endpoint takes the participant's id as a query paramater and returns the new participant object after saving.
+This endpoint takes the facility's id as a query paramater and returns the new facility object after saving.
 
 ### HTTP Request
 
@@ -282,5 +282,3 @@ This endpoint takes the facilities's id as a query paramater and adds an existin
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 userId | string | true | The existing user's id
-
-

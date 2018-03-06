@@ -21,7 +21,7 @@ curl "http://localhost/api/users/register"
     "createdAt": "2018-01-20T17:00:17.383Z",
     "passwordReset": false,
     "deleted": false,
-    "accessLevel": 0,
+    "type": 0,
     "type": 0,
     "lastName": "simons",
     "firstName": "tony",
@@ -48,8 +48,8 @@ facilities | [objectid] | false | null
 phone | string | false | null
 age | integer | false | null
 gender | integer | false | null
-type | integer | false | 0 (see <a href="#type">`type`</a>)
-accessLevel | integer | false | 0 (see <a href="#access-level">`accessLevel`</a>)
+type | integer | false | 0 (see <a href="#account-type">`type`</a>)
+license | integer | false | 1 (see <a href="#license">`license`</a>)
 masterAccount | string | false | null
 deleted | boolean | false | false
 facebookId | string | false | null
@@ -84,7 +84,7 @@ curl "http://localhost/api/users/login"
     "createdAt": "2018-01-20T17:00:17.383Z",
     "passwordReset": false,
     "deleted": false,
-    "accessLevel": 0,
+    "type": 0,
     "type": 0,
     "lastName": "simons",
     "firstName": "tony",
@@ -105,7 +105,7 @@ Parameter | Required
 email | true
 password | true
 
-## Retrieve all users
+## Retrieve all licensed users
 
 ```shell
 curl "http://localhost/api/users"
@@ -127,8 +127,8 @@ curl "http://localhost/api/users"
         "createdAt": "2018-01-20T17:00:17.383Z",
         "passwordReset": false,
         "deleted": false,
-        "accessLevel": 0,
         "type": 0,
+        "license": 1,
         "lastName": "simons",
         "firstName": "tony",
         "email": "tony@thevalyreangroup4.com"
@@ -144,8 +144,8 @@ curl "http://localhost/api/users"
         "createdAt": "2018-01-20T17:00:17.383Z",
         "passwordReset": false,
         "deleted": false,
-        "accessLevel": 0,
         "type": 0,
+        "license": 1,
         "lastName": "simons",
         "firstName": "tony",
         "email": "tony@thevalyreangroup5.com"
@@ -153,18 +153,128 @@ curl "http://localhost/api/users"
 ]
 ```
 
-This endpoint retrieves all users. If the requesting user has an `accessLevel` of 0 (admin), all possible users will be returned. Else, the `currentFacility` query must be used and only users that are assigned to that facility will be returned.
+This endpoint retrieves all licensed users for use in the internal admin pages.
 
 ### HTTP Request
 
 `GET http://localhost/api/users`
 
-### Query parameters
+## Retrieve all district admin users
 
-Parameter | Type | Description
---------- | ---- | -----------
-type | int | Use for retrieving users of a specific type (0: Admin, 1: Instructor, 2: Participant)
-currentFacility | string | If user is not an HZ admin, this is used to get users for the users's current facility context
+```shell
+curl "http://localhost/api/users/all/districtAdmins"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+        "_id": "5a9ec0c3ee8b0bfb4ffc18cb",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "logs": [],
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "license": 1,
+        "type": 3,
+        "facilities": [],
+        "lastName": "Harrington",
+        "firstName": "Kit",
+        "email": "kit@test.com"
+    }
+]
+```
+
+This endpoint retrieves all district admin users for use in the internal admin pages.
+
+### HTTP Request
+
+`GET http://localhost/api/users/all/districtAdmins`
+
+## Retrieve all facility admin users
+
+```shell
+curl "http://localhost/api/users/all/facilityAdmins"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+        "_id": "5a9ec0c3ee8b0bfb4ffc18cd",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "license": 1,
+        "type": 4,
+        "facilities": [],
+        "lastName": "Bellamy",
+        "firstName": "Bryan",
+        "email": "bryan@iridiumsoftware.com",
+        "totalLogins": 0
+    }
+]
+```
+
+This endpoint retrieves all district admin users for use in the internal admin pages.
+
+### HTTP Request
+
+`GET http://localhost/api/users/all/facilityAdmins`
+
+## Retrieve all instructor users
+
+```shell
+curl "http://localhost/api/users/all/instructors"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+        "_id": "5a9ec0c3ee8b0bfb4ffc18cc",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "license": 1,
+        "type": 5,
+        "facilities": [],
+        "lastName": "Simons",
+        "firstName": "Tony",
+        "email": "tony@thevalyreangroup.com",
+        "totalLogins": 0
+    }
+]
+```
+
+This endpoint retrieves all district admin users for use in the internal admin pages.
+
+### HTTP Request
+
+`GET http://localhost/api/users/all/facilityAdmins`
 
 ## Get a Specific User
 
@@ -187,7 +297,7 @@ curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
     "createdAt": "2018-01-20T17:00:17.383Z",
     "passwordReset": false,
     "deleted": false,
-    "accessLevel": 0,
+    "type": 0,
     "type": 0,
     "lastName": "simons",
     "firstName": "tony",
@@ -243,7 +353,7 @@ curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
     "createdAt": "2018-01-20T17:00:17.383Z",
     "passwordReset": false,
     "deleted": false,
-    "accessLevel": 1,
+    "type": 1,
     "type": 0,
     "lastName": "simons",
     "firstName": "tony",
@@ -272,8 +382,8 @@ facilities | [objectid] | false | null
 phone | string | false | null
 age | integer | false | null
 gender | integer | false | null
-type | integer | false | 0  (see <a href="#type">`type`</a>)
-accessLevel | integer | false | 0 (see <a href="#access-level">`accessLevel`</a>)
+type | integer | false | 0 (see <a href="#account-type">`type`</a>)
+license | integer | false | 1 (see <a href="#license">`license`</a>)
 masterAccount | string | false | null
 deleted | boolean | false | false
 facebookId | string | false | null

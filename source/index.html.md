@@ -14,11 +14,13 @@ includes:
   - participants
   - media
   - facilities
+  - districts
   - pictures
+  - search
   - errors
   - enums
   - classes
-
+  
 search: true
 ---
 
