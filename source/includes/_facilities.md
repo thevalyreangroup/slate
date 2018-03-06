@@ -1,6 +1,6 @@
 # Facilities
 
-## Create
+## Create a Facility
 
 ```shell
 curl "http://localhost/api/facilities"

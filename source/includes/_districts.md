@@ -1,6 +1,6 @@
 # Districts
 
-## Create
+## Create a District
 
 ```shell
 curl "http://localhost/api/districts"

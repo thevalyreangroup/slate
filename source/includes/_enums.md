@@ -20,8 +20,8 @@ Used for assigning a `license` to a user account.
 
 Value | Name | Default
 ----- | ---- | -------
-0 | Active | true
-1 | Pending
+0 | Active |
+1 | Pending | true
 2 | Suspended
 
 ## Account Type

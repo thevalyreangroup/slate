@@ -1,6 +1,6 @@
 # Participants
 
-## Create
+## Create a Participant
 
 ```shell
 curl "http://localhost/api/participants"

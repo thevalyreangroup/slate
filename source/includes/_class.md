@@ -1,6 +1,6 @@
 # Classes
 
-## Create
+## Create a class
 
 ```shell
 curl "http://localhost/api/classes"
