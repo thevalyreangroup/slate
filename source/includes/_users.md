@@ -231,7 +231,7 @@ curl "http://localhost/api/users/all/facilityAdmins"
 ]
 ```
 
-This endpoint retrieves all district admin users for use in the internal admin pages.
+This endpoint retrieves all district admin users for use in the internal/external admin pages.
 
 ### HTTP Request
 
@@ -270,11 +270,11 @@ curl "http://localhost/api/users/all/instructors"
 ]
 ```
 
-This endpoint retrieves all district admin users for use in the internal admin pages.
+This endpoint retrieves all instructor users for use in the external admin pages.
 
 ### HTTP Request
 
-`GET http://localhost/api/users/all/facilityAdmins`
+`GET http://localhost/api/users/all/instructors`
 
 ## Get a Specific User
 
