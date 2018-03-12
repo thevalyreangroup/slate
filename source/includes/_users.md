@@ -159,6 +159,45 @@ This endpoint retrieves all licensed users for use in the internal admin pages.
 
 `GET http://localhost/api/users`
 
+## Retrieve all internal admin users
+
+```shell
+curl "http://localhost/api/users/all/internal"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+        "_id": "5a9ec0c3ee8b0bfb4ffc18cb",
+        "updatedAt": "2018-01-20T17:00:22.642Z",
+        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
+        "__v": 0,
+        "address": {
+            "createdAt": "2018-01-20T17:00:17.383Z"
+        },
+        "logs": [],
+        "createdAt": "2018-01-20T17:00:17.383Z",
+        "passwordReset": false,
+        "deleted": false,
+        "license": 1,
+        "type": 0,
+        "facilities": [],
+        "lastName": "Harrington",
+        "firstName": "Kit",
+        "email": "kit@test.com"
+    }
+]
+```
+
+This endpoint retrieves all internal admin users for use in the internal admin pages, must be at least a `SUB_ADMIN`
+
+### HTTP Request
+
+`GET http://localhost/api/users/all/internal`
+
 ## Retrieve all district admin users
 
 ```shell
