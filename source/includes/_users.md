@@ -408,8 +408,6 @@ This endpoint takes the user's id as a query parameter and returns the new user 
 
 ### Payload parameters
 
-Parameter | Type
---------- | ----
 Parameter | Type | Required | Default
 --------- | ---- | -------- | -------
 email | string | false |
@@ -431,3 +429,74 @@ googleId | string | false | null
 passwordReset | boolean | false | false
 picture | objectid | false | null (see <a href="#pictures">`Pictures`</a>)
 address | Address | false | null (see <a href="#address">`address`</a>)
+
+## Request a password reset
+
+```shell
+curl "http://localhost/api/users/5a72027f4bf51fa978b29033/requestReset"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "User pending password reset."
+}
+```
+
+This endpoint takes the user's id as a query parameter, flags the user account for reset, and sends them an email with a link to `/passwordReset?resetToken=`
+
+### HTTP Request
+
+`POST http://localhost/api/users/<id>/requestReset`
+
+### Payload parameters
+
+Parameter | Type | Required | Default
+--------- | ---- | -------- | -------
+
+## Process a password reset
+
+```shell
+curl "http://localhost/api/users/resetPassword"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "hashedPassword": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6eyJwYXNzd29yZCI6InRlc3QyIn19.konni4X_m0f7W1zERmBKah_IrpwMSvlfDNAs3h77egk",
+    "_id": "5aa1771ec1558263eb80e7a3",
+    "updatedAt": "2018-03-14T17:40:56.869Z",
+    "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
+    "__v": 1,
+    "address": {
+        "createdAt": "2018-01-20T17:00:17.383Z"
+    },
+    "logs": [],
+    "createdAt": "2018-01-20T17:00:17.383Z",
+    "passwordReset": true,
+    "deleted": false,
+    "license": 1,
+    "type": 2,
+    "facilities": [
+        "5a8b281ee3c022a8d0cf74a7"
+    ],
+    "lastName": "Lannister",
+    "firstName": "Jamie",
+    "email": "jamie@test.com"
+}
+```
+
+This endpoint takes the user's password `resetToken` and the new password as body paramaters.
+
+### HTTP Request
+
+`POST http://localhost/api/users/<id>/requestReset`
+
+### Payload parameters
+
+Parameter | Type | Required
+--------- | ---- | --------
+resetToken | String | true
+password | String | true

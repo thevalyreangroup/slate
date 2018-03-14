@@ -32,8 +32,7 @@ file | form_data
 ## Get PNG representation
 
 ```shell
-curl "http://localhost/api/facilities/image/5a72027f4bf51fa978b29033"
-  -H "Authorization: Bearer {token}"
+curl "http://localhost/api/facilities/image/5a72027f4bf51fa978b29033?token=23113cd0-1015-11e8-8571-b59c57efe38a"
 ```
 
 > The above command returns a PNG representation of the stored image data.
@@ -42,9 +41,9 @@ curl "http://localhost/api/facilities/image/5a72027f4bf51fa978b29033"
 
 ```
 
-This endpoint takes the entity's ID as a URL parameter and returns the necessary a PNG file.
+This endpoint takes the entity's ID as a URL parameter and returns the necessary a PNG file. The bearer token must be provided in the `token` query string.
 
 ### HTTP Request
 
-`GET http://localhost/api/users/image/<id>`
-`GET http://localhost/api/facilities/image/<id>`
+`GET http://localhost/api/users/image/<id>?token={bearer token}`
+`GET http://localhost/api/facilities/image/<id>?token={bearer token}`
