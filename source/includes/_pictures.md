@@ -47,3 +47,23 @@ This endpoint takes the entity's ID as a URL parameter and returns the necessary
 
 `GET http://localhost/api/users/image/<id>?token={bearer token}`
 `GET http://localhost/api/facilities/image/<id>?token={bearer token}`
+
+## Delete associated image
+
+```shell
+curl "http://localhost/api/facilities/image/5a72027f4bf51fa978b29033"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns a PNG representation of the stored image data.
+
+```
+
+```
+
+This endpoint takes the entity's ID as a URL parameter and removes the associated image objectID from the model.
+
+### HTTP Request
+
+`DELETE http://localhost/api/users/image/<id>`
+`DELETE http://localhost/api/facilities/image/<id>`
