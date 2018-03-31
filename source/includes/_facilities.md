@@ -11,35 +11,33 @@ curl "http://localhost/api/facilities"
 
 ```json
 {
-    "__v": 0,
-    "updatedAt": "2018-02-13T18:01:35.815Z",
-    "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "_id": "5a8327ffb2cc252d4bbb7d0b",
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.778Z"
-    },
-    "createdAt": "2018-02-13T17:50:03.778Z",
-    "deleted": false,
+    "name": "test facility 1",
     "type": 0,
-    "name": "test name"
+    "createdAt": "2018-02-13T17:50:03.778Z",
+    "_id": "5abfde10337566a8b385db17",
+    "updatedAt": "2018-02-13T18:01:35.815Z",
+    "createdBy": "5a75ee8b4b8d5fd5797d0863"
 }
 ```
 
-This endpoint creates a new facility. All properties in the model (facility.js) are allowed and may be included.
+This endpoint creates a new facility.
 
 ### HTTP Request
 
 `POST http://localhost/api/facilities`
+
+### Minimum Role Required
+
+`DISTRICT_ADMIN`
 
 ### Payload parameters
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 name | string | true |
-type | integer | false | (see <a href="#facility-type">`address`</a>)
+type | integer | false | (see <a href="#facility-type">`facility-type`</a>)
 phone | string | false |
 website | string | false |
-picture | objectid | false | (see <a href="#pictures">`Pictures`</a>)
 address | Address | false | null (see <a href="#address">`address`</a>)
 
 
@@ -57,22 +55,21 @@ curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b"
     "_id": "5a8327ffb2cc252d4bbb7d0b",
     "updatedAt": "2018-02-13T18:01:35.815Z",
     "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.778Z"
-    },
     "createdAt": "2018-02-13T17:50:03.778Z",
-    "deleted": false,
     "type": 0,
     "name": "test name"
 }
 ```
 
-This endpoint takes the facility's id as a query paramater and returns the full facility object.
+This endpoint takes the facility's id as a query parameter and returns the full facility object.
 
 ### HTTP Request
 
 `GET http://localhost/api/facilities/<id>`
+
+### Minimum Role Required
+
+NONE
 
 ## Get all Facilities
 
@@ -85,27 +82,34 @@ curl "http://localhost/api/facilities"
 
 ```json
 [
-  {
-    "_id": "5a8327ffb2cc252d4bbb7d0b",
-    "updatedAt": "2018-02-13T18:01:35.815Z",
-    "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.778Z"
+    {
+        "name": "test facility 1",
+        "type": 0,
+        "createdAt": "2018-02-13T17:50:03.778Z",
+        "_id": "5abfdeab21aa27a8d32edb8a",
+        "updatedAt": "2018-02-13T18:01:35.815Z",
+        "createdBy": "5a75ee8b4b8d5fd5797d0863"
     },
-    "createdAt": "2018-02-13T17:50:03.778Z",
-    "deleted": false,
-    "type": 0,
-    "name": "test name"
-  }
+    {
+        "name": "test facility 2",
+        "type": 0,
+        "createdAt": "2018-02-13T17:50:03.778Z",
+        "_id": "5abfdeab21aa27a8d32edb8b",
+        "updatedAt": "2018-02-13T18:01:35.815Z",
+        "createdBy": "5a75ee8b4b8d5fd5797d0863"
+    }
 ]
 ```
 
-This endpoint takes the facility's id as a query paramater and returns the full facility object.
+This endpoint returns all facilities.
 
 ### HTTP Request
 
 `GET http://localhost/api/facilities`
+
+### Minimum Role Required
+
+`DISTRICT_ADMIN`
 
 ## Delete a Facility
 
@@ -128,6 +132,10 @@ This endpoint takes the facility's id as a query parameter and returns `200` if 
 
 `DELETE http://localhost/api/facilities/<id>`
 
+### Minimum Role Required
+
+`DISTRICT_ADMIN`
+
 ## Update a Facility
 
 ```shell
@@ -142,10 +150,6 @@ curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b"
     "_id": "5a8327ffb2cc252d4bbb7d0b",
     "updatedAt": "2018-02-13T18:01:35.815Z",
     "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.778Z"
-    },
     "createdAt": "2018-02-13T17:50:03.778Z",
     "deleted": false,
     "type": 0,
@@ -159,21 +163,24 @@ This endpoint takes the facility's id as a query paramater and returns the new f
 
 `PUT http://localhost/api/facilities/<id>`
 
+### Minimum Role Required
+
+`FACILITY_ADMIN`
+
 ### Payload parameters
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 name | string | false |
-type | integer | false | (see <a href="#facility-type">`address`</a>)
+type | integer | false | (see <a href="#facility-type">`facility-type`</a>)
 phone | string | false |
 website | string | false |
-picture | objectid | false | (see <a href="#pictures">`Pictures`</a>)
 address | Address | false | null (see <a href="#address">`address`</a>)
 
 ## Add new user to Facility
 
 ```shell
-curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b/users"
+curl "http://localhost/api/facilities/5abfdeab21aa27a8d32edb8a/users"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -181,64 +188,52 @@ curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b/users"
 
 ```json
 {
-    "__v": 0,
-    "updatedAt": "2018-02-13T18:10:07.296Z",
-    "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "hashedPassword": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjNwb2NKZzkifQ.tNVWdMZvCI5Xhu4w8fBpf8E0euB2eABkYZefD8TR8oQ",
-    "_id": "5a8329ffb2cc252d4bbb7d0c",
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.802Z"
+    "license": {
+        "status": 1
     },
-    "logs": [],
-    "createdAt": "2018-02-13T17:50:03.802Z",
-    "passwordReset": true,
-    "deleted": false,
-    "accessLevel": 6,
-    "type": 2,
+    "email": "tony19@thevalyreangroup.com",
+    "firstName": "tony test",
+    "lastName": "simons test",
     "facilities": [
-        "5a8327ffb2cc252d4bbb7d0b"
+        "5abfdeab21aa27a8d32edb8a"
     ],
-    "lastName": "simons",
-    "firstName": "test 234",
-    "email": "tony234@thevalyreangroup.com"
+    "roles": [
+        1
+    ],
+    "createdAt": "2018-03-31T19:23:23.217Z",
+    "_id": "5abfe0381da7d2a8f0fe9d34",
+    "createdBy": "5abfdeac21aa27a8d32edb94",
+    "updatedAt": "2018-03-31T19:23:36.384Z"
 }
 ```
 
-This endpoint takes the facilities's id as a query paramater, creates a new user with the `participant` type and returns the new participant object after saving. The new participant is notified via email with a temporary password,
+This endpoint takes the facilities's id as a query parameter, creates a new user with the `instructor` role and returns the new participant object after saving. The new participant is notified via email with a temporary password.
 
 ### HTTP Request
 
 `POST http://localhost/api/facilities/<id>/users`
+
+### Minimum Role Required
+
+`FACILITY_ADMIN`
 
 ### Payload parameters
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 email | string | true |
-password | string | true |
 firstName | string | true |
 lastName | string | true |
 nickName | string | false | null
-facilities | [objectid] | false | null
 phone | string | false | null
 age | integer | false | null
 gender | integer | false | null
-type | integer | false | 0 (see <a href="#type">`type`</a>)
-accessLevel | integer | false | 0 (see <a href="#access-level">`accessLevel`</a>)
-masterAccount | string | false | null
-deleted | boolean | false | false
-facebookId | string | false | null
-twitterId | string | false | null
-googleId | string | false | null
-passwordReset | boolean | false | false
-picture | objectid | false | null (see <a href="#pictures">`Pictures`</a>)
-address | Address | false | null (see <a href="#address">`address`</a>)
 
 
 ## Add existing user to Facility
 
 ```shell
-curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b/users"
+curl "http://localhost/api/facilities/5abfdeab21aa27a8d32edb8a/users"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -246,36 +241,34 @@ curl "http://localhost/api/facilities/5a8327ffb2cc252d4bbb7d0b/users"
 
 ```json
 {
-    "_id": "5a8329ffb2cc252d4bbb7d0c",
-    "updatedAt": "2018-02-13T18:14:19.000Z",
-    "createdBy": "5a75ee8b4b8d5fd5797d0863",
-    "hashedPassword": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjNwb2NKZzkifQ.tNVWdMZvCI5Xhu4w8fBpf8E0euB2eABkYZefD8TR8oQ",
-    "__v": 0,
-    "updatedBy": "5a75ee8b4b8d5fd5797d0863",
-    "address": {
-        "createdAt": "2018-02-13T17:50:03.802Z"
+    "license": {
+        "status": 1
     },
-    "logs": [],
-    "createdAt": "2018-02-13T17:50:03.802Z",
-    "passwordReset": true,
-    "deleted": false,
-    "accessLevel": 6,
-    "type": 2,
+    "email": "walter@white.com",
+    "firstName": "Walter",
+    "lastName": "White",
     "facilities": [
-        "5a8327ffb2cc252d4bbb7d0b",
-        "5a23vehfb2cc2wefv2537d06"
+        "5abfdeab21aa27a8d32edb8a",
     ],
-    "lastName": "simons",
-    "firstName": "test 234",
-    "email": "tony234@thevalyreangroup.com"
+    "roles": [
+        0
+    ],
+    "createdAt": "2018-03-31T19:40:02.871Z",
+    "_id": "5abfdeac21aa27a8d32edb99",
+    "updatedAt": "2018-03-31T19:46:16.589Z",
+    "updatedBy": "5abfdeac21aa27a8d32edb94"
 }
 ```
 
-This endpoint takes the facilities's id as a query paramater and adds an existing user to the participants list. The user must be of `type` participant.
+This endpoint takes the facilities's id as a query parameter and adds an existing user to the participants list. The user must have the `participant` role and not already be attached to this facility.
 
 ### HTTP Request
 
 `PUT http://localhost/api/facilities/<id>/users`
+
+### Minimum Role Required
+
+`FACILITY_ADMIN`
 
 ### Payload parameters
 

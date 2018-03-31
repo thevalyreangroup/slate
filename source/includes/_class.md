@@ -17,16 +17,19 @@ curl "http://localhost/api/classes"
     "date": "2018-01-30T00:00:00.000Z",
     "_id": "5a63a56efd397babebf06649",
     "createdAt": "2018-01-20T20:24:04.281Z",
-    "deleted": false,
     "name": "new class name"
 }
 ```
 
-This endpoint creates a new class. All properties in the model (class.js) are allowed and may be included. You may also include an array of `Participant` objects to be created and added to the class along with this.
+This endpoint creates a new class. You may also include an array of `Participant` id's to be created and added to the class along with this.
 
 ### HTTP Request
 
 `POST http://localhost/api/classes`
+
+### Minimum Role Required
+
+`INSTRUCTOR`
 
 ### Payload parameters
 
@@ -34,7 +37,7 @@ Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 name | string | true |
 date | date | true |
-instructor | objectid | false |
+instructor | string | true |
 participants | [objectid] | false |
 description | string | false |
 duration | integer | false | Duration in minutes
@@ -48,7 +51,7 @@ curl "http://localhost/api/classes/upload"
   -H "Authorization: Bearer {token}"
 ```
 
-> The above command returns an empty response with statust `200` if the upload was succesful.
+> The above command returns an empty response with status `200` if the upload was successful.
 
 ```json
 ```
@@ -58,6 +61,10 @@ This endpoint returns immediately once the file as completed uploading. The CSV 
 ### HTTP Request
 
 `POST http://localhost/api/classes/upload`
+
+### Minimum Role Required
+
+`INSTRUCTOR`
 
 ### Payload parameters
 
@@ -75,42 +82,58 @@ curl "http://localhost/api/classes"
 > The above command returns JSON structured like this:
 
 ```json
-{
+[
     {
-        "_id": "5a63a56efd397babebf06649",
+        "name": "Test class name 1",
+        "instructor": "Kate Austin",
+        "participants": [],
+        "createdAt": "2018-01-20T20:24:04.281Z",
+        "_id": "5abfea4770fbbfaa64994f56",
+        "__v": 0,
         "updatedAt": "2018-01-20T20:24:14.806Z",
         "createdBy": "5a6375a6e1986a50012351c8",
-        "date": "2018-01-30T00:00:00.000Z",
-        "__v": 0,
-        "createdAt": "2018-01-20T20:24:04.281Z",
-        "deleted": false,
-        "name": "new class name"
+        "date": "2018-01-30T00:00:00.000Z"
     },
     {
-        "_id": "5a63a5a5fd397babebf0664a",
-        "updatedAt": "2018-01-20T20:25:09.248Z",
-        "createdBy": "5a6375a6e1986a50012351c8",
-        "date": "2018-01-30T00:00:00.000Z",
-        "__v": 0,
+        "name": "Test class name 2",
+        "instructor": "Jack Shepherd",
+        "participants": [],
         "createdAt": "2018-01-20T20:24:04.281Z",
-        "deleted": false,
-        "name": "new class name 2"
+        "_id": "5abfea4770fbbfaa64994f57",
+        "__v": 0,
+        "updatedAt": "2018-01-20T20:24:14.806Z",
+        "createdBy": "5a6375a6e1986a50012351c8",
+        "date": "2018-01-30T00:00:00.000Z"
     }
 ]
 ```
 
-This endpoint retrieves all classes if the user is an HZ admin. And only the classes the user is part of if accessLevel is `INSTRUCTOR` or `PARTICIPANT`
+This endpoint retrieves all non-deleted classes based on the following conditions:  
+  
+---Returns all classes this participant is a part of---  
+-User has only one role and is a `participant`.  
+-User has multiple roles with one including `participant` and the query string `asParticipant` is included.  
+
+---Returns all classes this instructor is a part of---  
+-User has only one role and is an `instructor`.  
+-User has multiple roles with one including `instructor` and the query string `asInstructor` is included.  
+
+---Returns all classes---  
+-None of the above conditions were met.  
 
 ### HTTP Request
 
 `GET http://localhost/api/classes`
+
+### Minimum Role Required
+
+NONE
 
 ### Query parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
 limit | int | Limit the amount of classes returned
-currentFacility | string | If user is not an HZ admin, this is used to get classes for the users's current facility context
 
 
 ## Get a Specific Class
@@ -124,41 +147,57 @@ curl "http://localhost/api/classes/5a72027f4bf51fa978b29033"
 
 ```json
 {
-    "_id": "5a6faf7cb425a96c255122e7",
-    "updatedAt": "2018-01-30T00:42:16.826Z",
-    "createdBy": "5a6e27178b2fae714d17178a",
-    "date": "2017-01-29T00:00:00.000Z",
-    "__v": 3,
-    "createdAt": "2018-01-29T23:33:30.445Z",
-    "deleted": false,
+    "name": "Test class name 1",
+    "instructor": "Kate Austin",
     "participants": [
         {
-            "_id": "5a6fb5979077386ceab252c8",
-            "updatedAt": "2018-01-30T00:00:23.246Z",
-            "createdBy": "5a6e27178b2fae714d17178a",
-            "__v": 0,
-            "address": {
-                "createdAt": "2018-01-30T00:00:20.705Z"
+            "license": {
+                "status": 1
             },
-            "createdAt": "2018-01-30T00:00:20.705Z",
-            "passwordReset": false,
-            "deleted": false,
-            "hasPortalAccess": false,
-            "lastName": "Simons",
-            "firstName": "Tony",
-            "email": "test@test.com"
+            "participantData": {
+                "heartZones": {
+                    "shr": 80,
+                    "t1": 140,
+                    "t2": 170,
+                    "peak": 200
+                },
+                "hasPortalAccess": true,
+                "metrics": [],
+                "studentId": 3023,
+                "weight": 160,
+                "heightInches": 96,
+                "walkingStride": 36,
+                "runningStride": 72,
+                "birthdate": "2018-09-28T00:00:00.000Z"
+            },
+            "email": "walter@white.com",
+            "firstName": "Walter",
+            "lastName": "White",
+            "facilities": [],
+            "roles": [
+                0
+            ],
+            "createdAt": "2018-03-31T20:27:22.530Z",
+            "_id": "5abfea4870fbbfaa64994f6a"
         }
     ],
-    "instructor": "Todd Ramirez",
-    "name": "Test class name"
+    "createdAt": "2018-01-20T20:24:04.281Z",
+    "_id": "5abfea4770fbbfaa64994f56",
+    "updatedAt": "2018-03-31T20:27:23.000Z",
+    "createdBy": "5a6375a6e1986a50012351c8",
+    "date": "2018-01-30T00:00:00.000Z"
 }
 ```
 
-This endpoint takes the class's id as a query paramater and returns the full class object.
+This endpoint takes the class's id as a query parameter and returns the full class object with all participants and their respective data.
 
 ### HTTP Request
 
 `GET http://localhost/api/classes/<id>`
+
+### Minimum Role Required
+
+NONE
 
 ## Delete a Specific Class
 
@@ -181,6 +220,10 @@ This endpoint takes the class's id as a query parameter and returns `200` if suc
 
 `DELETE http://localhost/api/classes/<id>`
 
+### Minimum Role Required
+
+`INSTRUCTOR`
+
 ## Update a Specific Class
 
 ```shell
@@ -192,22 +235,26 @@ curl "http://localhost/api/classes/5a72027f4bf51fa978b29033"
 
 ```json
 {
-    "_id": "5a63a56efd397babebf06649",
+    "name": "Test class name 4",
+    "instructor": "Roger Bloomingdale",
+    "participants": [],
+    "createdAt": "2018-01-20T20:24:04.281Z",
+    "_id": "5abfea4770fbbfaa64994f56",
     "updatedAt": "2018-01-20T20:24:14.806Z",
     "createdBy": "5a6375a6e1986a50012351c8",
-    "date": "2018-01-30T00:00:00.000Z",
-    "__v": 0,
-    "createdAt": "2018-01-20T20:24:04.281Z",
-    "deleted": false,
-    "name": "updated class name"
+    "date": "2018-01-30T00:00:00.000Z"
 }
 ```
 
-This endpoint takes the class's id as a query paramater and returns the new class object after saving.
+This endpoint takes the class's id as a query parameter and returns the new class object after saving.
 
 ### HTTP Request
 
 `PUT http://localhost/api/classes/<id>`
+
+### Minimum Role Required
+
+`INSTRUCTOR`
 
 ### Payload parameters
 
@@ -215,7 +262,7 @@ Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 name | string | false |
 date | date | false |
-instructor | objectid | false |
+instructor | string | false |
 participants | [objectid] | false |
 description | string | false |
 duration | integer | false | Duration in minutes
@@ -226,7 +273,7 @@ status | integer | false |
 ## Add a Participant to a Specific Class
 
 ```shell
-curl "http://localhost/api/classes/5a72027f4bf51fa978b29033/participants"
+curl "http://localhost/api/classes/5abfea4770fbbfaa64994f56/participants"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -234,53 +281,69 @@ curl "http://localhost/api/classes/5a72027f4bf51fa978b29033/participants"
 
 ```json
 {
-    "_id": "5a6faf7cb425a96c255122e7",
-    "updatedAt": "2018-01-30T00:42:16.826Z",
-    "createdBy": "5a6e27178b2fae714d17178a",
-    "date": "2017-01-29T00:00:00.000Z",
-    "__v": 3,
-    "createdAt": "2018-01-29T23:33:30.445Z",
-    "deleted": false,
+    "name": "Test class name 1",
+    "instructor": "Kate Austin",
     "participants": [
         {
-            "_id": "5a6fb5979077386ceab252c8",
-            "updatedAt": "2018-01-30T00:00:23.246Z",
-            "createdBy": "5a6e27178b2fae714d17178a",
-            "__v": 0,
-            "address": {
-                "createdAt": "2018-01-30T00:00:20.705Z"
+            "license": {
+                "status": 1
             },
-            "createdAt": "2018-01-30T00:00:20.705Z",
-            "passwordReset": false,
-            "deleted": false,
-            "hasPortalAccess": false,
-            "lastName": "Simons",
-            "firstName": "Tony",
-            "email": "test@test.com"
+            "participantData": {
+                "heartZones": {
+                    "shr": 80,
+                    "t1": 140,
+                    "t2": 170,
+                    "peak": 200
+                },
+                "hasPortalAccess": true,
+                "metrics": [],
+                "studentId": 3023,
+                "weight": 160,
+                "heightInches": 96,
+                "walkingStride": 36,
+                "runningStride": 72,
+                "birthdate": "2018-09-28T00:00:00.000Z"
+            },
+            "email": "walter@white.com",
+            "firstName": "Walter",
+            "lastName": "White",
+            "facilities": [],
+            "roles": [
+                0
+            ],
+            "createdAt": "2018-03-31T20:27:22.530Z",
+            "_id": "5abfea4870fbbfaa64994f6a"
         }
     ],
-    "instructor": "Todd Ramirez",
-    "name": "Test class name"
+    "createdAt": "2018-01-20T20:24:04.281Z",
+    "_id": "5abfea4770fbbfaa64994f56",
+    "updatedAt": "2018-03-31T20:27:23.000Z",
+    "createdBy": "5a6375a6e1986a50012351c8",
+    "date": "2018-01-30T00:00:00.000Z"
 }
 ```
 
-This endpoint takes the class's id as a query paramater and returns the new class object after saving.
+This endpoint takes the class's id as a query parameter and returns the new class object after saving.
 
 ### HTTP Request
 
 `POST http://localhost/api/classes/<id>/participants`
 
+### Minimum Role Required
+
+`INSTRUCTOR`
+
 ### Payload parameters
 
 Parameter | Type
 --------- | ----
-participantId | string
+userId | string
 
 
 ## Remove a Participant from a Specific Class
 
 ```shell
-curl "http://localhost/api/classes/5a72027f4bf51fa978b29033/participants/5b2352f4bf51fa978b29279"
+curl "http://localhost/api/classes/5abfea4770fbbfaa64994f56/participants/5abfea4870fbbfaa64994f6a"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -288,21 +351,23 @@ curl "http://localhost/api/classes/5a72027f4bf51fa978b29033/participants/5b2352f
 
 ```json
 {
-    "_id": "5a6faf7cb425a96c255122e7",
-    "updatedAt": "2018-01-30T00:42:16.826Z",
-    "createdBy": "5a6e27178b2fae714d17178a",
-    "date": "2017-01-29T00:00:00.000Z",
-    "__v": 3,
-    "createdAt": "2018-01-29T23:33:30.445Z",
-    "deleted": false,
+    "name": "Test class name 1",
+    "instructor": "Kate Austin",
     "participants": [],
-    "instructor": "Todd Ramirez",
-    "name": "Test class name"
+    "createdAt": "2018-01-20T20:24:04.281Z",
+    "_id": "5abfea4770fbbfaa64994f56",
+    "updatedAt": "2018-03-31T20:27:23.000Z",
+    "createdBy": "5a6375a6e1986a50012351c8",
+    "date": "2018-01-30T00:00:00.000Z"
 }
 ```
 
-This endpoint takes the class's id, and the participant's id as a query paramater and returns the new class object after saving.
+This endpoint takes the class's id, and the participant's id as a query parameter and returns the new class object after saving.
 
 ### HTTP Request
 
 `DELETE http://localhost/api/classes/<id>/participants/<participantId>`
+
+### Minimum Role Required
+
+`INSTRUCTOR`

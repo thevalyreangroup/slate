@@ -11,7 +11,6 @@ toc_footers:
 includes:
   - users
   - class
-  - participants
   - media
   - facilities
   - districts
@@ -20,7 +19,7 @@ includes:
   - errors
   - enums
   - classes
-  
+
 search: true
 ---
 
