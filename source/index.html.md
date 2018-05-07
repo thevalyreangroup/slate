@@ -16,11 +16,12 @@ includes:
   - facilities
   - districts
   - pictures
+  - mobile
   - search
   - errors
   - enums
   - classes
-  
+
 search: true
 ---
 

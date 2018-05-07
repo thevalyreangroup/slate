@@ -20,6 +20,7 @@ This endpoint uploads (or updates) the picture stored for the entity. Image cont
 ### HTTP Request
 
 `POST http://localhost/api/users/image/<id>`
+
 `POST http://localhost/api/facilities/image/<id>`
 
 ### Payload parameters
@@ -46,6 +47,7 @@ This endpoint takes the entity's ID as a URL parameter and returns the necessary
 ### HTTP Request
 
 `GET http://localhost/api/users/image/<id>?token={bearer token}`
+
 `GET http://localhost/api/facilities/image/<id>?token={bearer token}`
 
 ## Delete associated image
@@ -66,4 +68,5 @@ This endpoint takes the entity's ID as a URL parameter and removes the associate
 ### HTTP Request
 
 `DELETE http://localhost/api/users/image/<id>`
+
 `DELETE http://localhost/api/facilities/image/<id>`
