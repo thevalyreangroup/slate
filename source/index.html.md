@@ -11,7 +11,6 @@ toc_footers:
 includes:
   - users
   - class
-  - participants
   - media
   - facilities
   - districts

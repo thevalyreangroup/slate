@@ -1,9 +1,9 @@
-# Search
+# General
 
-## Search
+## Searching
 
 ```shell
-curl "http://localhost/api/districts?query=5437"
+curl "http://localhost/api/search?query="
   -H "Authorization: Bearer {token}"
 ```
 
@@ -12,35 +12,44 @@ curl "http://localhost/api/districts?query=5437"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18c7",
-        "__v": 0,
-        "updatedAt": "2018-03-06T16:15:22.756Z",
-        "createdBy": "5a8b33d24456d4ad1bd97546",
-        "createdAt": "2018-03-06T16:15:20.651Z",
-        "deleted": false,
+        "license": {
+            "status": 1
+        },
+        "email": "tony@thevalyreangroup.com",
+        "firstName": "Tony",
+        "lastName": "Simons",
         "facilities": [],
-        "identifier": "5412385437",
-        "name": "District 4"
+        "roles": [
+            5
+        ],
+        "createdAt": "2018-03-31T19:01:15.317Z",
+        "_id": "5abfd52938cc8ca7ab6dd7bd"
     },
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18c4",
-        "__v": 0,
-        "updatedAt": "2018-03-06T16:28:31.000Z",
-        "createdBy": "5a8b33d24456d4ad1bd97546",
-        "updatedBy": "5a9ec0c3ee8b0bfb4ffc18c9",
-        "createdAt": "2018-03-06T16:15:20.651Z",
-        "deleted": false,
-        "facilities": [
-            "5a8b281ee3c022a8d0cf74a7"
-        ],
-        "identifier": "5437",
-        "name": "District 1"
+        "name": "Simons district",
+        "identifier": "54372323",
+        "facilities": [],
+        "createdAt": "2018-03-31T19:01:15.307Z",
+        "_id": "5abfdd54803a89a862d55c4c",
+        "createdBy": "5abfd52938cc8ca7ab6dd7ba",
+        "updatedAt": "2018-03-31T19:11:16.973Z"
     }
 ]
 ```
 
-This endpoint searches the database models of `Users`,`Facilities`,`Districts`, and `Participants` and returns all possible matches of the query string.
+This endpoint searches for a regex match of the query string `query` in
+
+-`Users` by `firstName`,`lastName`,`email`,`nickName`  
+
+-`Districts` by `name`,`identifier`  
+
+-`Facilities` by `name`  
+
 
 ### HTTP Request
 
-`GET http://localhost/api/search?query=`
+`GET http://localhost/api/search?query=simons`
+
+### Minimum Role Required
+
+None

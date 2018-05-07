@@ -52,7 +52,7 @@ curl "http://localhost/api/media/info/testfilename12.csv"
 }
 ```
 
-This endpoint takes the file's name as a URL paramater and returns the necessary metadata for the file. The `awsURL` can be used to physically download the file.
+This endpoint takes the file's name as a URL parameter and returns the necessary metadata for the file. The `awsURL` can be used to physically download the file.
 
 ### HTTP Request
 

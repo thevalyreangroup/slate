@@ -11,53 +11,56 @@ curl "http://localhost/api/users/register"
 
 ```json
 {
-    "_id": "5a6375a6e1986a50012351c8",
-    "updatedAt": "2018-01-20T17:00:22.642Z",
-    "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-01-20T17:00:17.383Z"
+    "license": {
+        "status": 1,
+        "expiresAt": "2018-04-20T20:09:25.664Z"
     },
-    "createdAt": "2018-01-20T17:00:17.383Z",
-    "passwordReset": false,
-    "deleted": false,
-    "type": 0,
-    "type": 0,
-    "lastName": "simons",
-    "firstName": "tony",
-    "email": "tony@thevalyreangroup.com"
+    "participantData": {
+        "heartZones": {
+            "shr": 80,
+            "t1": 140,
+            "t2": 170,
+            "peak": 200
+        },
+        "hasPortalAccess": true,
+        "metrics": []
+    },
+    "email": "tony7@thevalyreangroup.com",
+    "firstName": "Tony Test",
+    "lastName": "Simons",
+    "facilities": [],
+    "roles": [
+        0
+    ],
+    "createdAt": "2018-03-30T20:09:20.303Z",
+    "_id": "5abe99750717289239acb3b1",
+    "lastLogin": "2018-03-30T20:09:25.663Z",
+    "updatedAt": "2018-03-30T20:09:25.678Z"
 }
 ```
 
-This endpoint registers a new user and then automatically logs that instance in to the session. All properties in the model (user.js) are allowed and may be included.
+This endpoint registers a new user and then automatically logs that instance in to the session. The user is registered with the `participant` role by default. An HZ admin must change this user's <a href="#roles">`ROLE`</a> if needed. The standard 21 day trial <a href="#license">`LICENSE`</a> is applied until changed by an HZ admin.
 
 ### HTTP Request
 
 `POST http://localhost/api/users/register`
+
+### Minimum Role Required
+
+None
 
 ### Payload parameters
 
 Parameter | Type | Required | Default
 --------- | ---- | -------- | -------
 email | string | true |
-password | string | true |
+password | string | true | (Must be at least 8 characters and contain at least one digit)
 firstName | string | true |
 lastName | string | true |
 nickName | string | false | null
-facilities | [objectid] | false | null
 phone | string | false | null
 age | integer | false | null
 gender | integer | false | null
-type | integer | false | 0 (see <a href="#account-type">`type`</a>)
-license | integer | false | 1 (see <a href="#license">`license`</a>)
-masterAccount | string | false | null
-deleted | boolean | false | false
-facebookId | string | false | null
-twitterId | string | false | null
-googleId | string | false | null
-passwordReset | boolean | false | false
-picture | objectid | false | null (see <a href="#pictures">`Pictures`</a>)
-address | Address | false | null (see <a href="#address">`address`</a>)
 
 <aside class="success">
 We do not store plain-text passwords, they are all hashed.
@@ -73,30 +76,44 @@ curl "http://localhost/api/users/login"
 
 ```json
 {
-    "_id": "5a6375a6e1986a50012351c8",
-    "updatedAt": "2018-01-20T17:00:22.642Z",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
-    "__v": 0,
-    "lastLogin": "2018-01-20T20:59:06.000Z",
-    "address": {
-        "createdAt": "2018-01-20T17:00:17.383Z"
+    "license": {
+        "status": 1,
+        "expiresAt": "2018-04-20T20:09:25.664Z"
     },
-    "createdAt": "2018-01-20T17:00:17.383Z",
-    "passwordReset": false,
-    "deleted": false,
-    "type": 0,
-    "type": 0,
-    "lastName": "simons",
-    "firstName": "tony",
-    "email": "tony@thevalyreangroup4.com"
+    "participantData": {
+        "heartZones": {
+            "shr": 80,
+            "t1": 140,
+            "t2": 170,
+            "peak": 200
+        },
+        "hasPortalAccess": true,
+        "metrics": []
+    },
+    "email": "tony7@thevalyreangroup.com",
+    "firstName": "Tony Test",
+    "lastName": "Simons",
+    "facilities": [],
+    "roles": [
+        0
+    ],
+    "createdAt": "2018-03-30T20:09:20.303Z",
+    "_id": "5abe99750717289239acb3b1",
+    "lastLogin": "2018-03-30T20:09:32.000Z",
+    "updatedAt": "2018-03-30T20:09:32.940Z",
+    "_token": "42ebc6a0-3456-11e8-ac2e-91b20e7db99e"
 }
 ```
 
-This endpoint authenticates the user with their credentials, logs them in to the session, and returns the user object.
+This endpoint authenticates the user with their credentials, logs them in to the session, and returns the user object. Use the `token` from this response as the user's bearer authorization.
 
 ### HTTP Request
 
 `POST http://localhost/api/users/login`
+
+### Minimum Role Required
+
+None
 
 ### Payload parameters
 
@@ -117,47 +134,66 @@ curl "http://localhost/api/users"
 ```json
 [
     {
-        "_id": "5a6375a6e1986a50012351c8",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "type": 0,
-        "license": 1,
-        "lastName": "simons",
-        "firstName": "tony",
-        "email": "tony@thevalyreangroup4.com"
+        "email": "roger@test.com",
+        "firstName": "Roger",
+        "lastName": "Federer",
+        "facilities": [
+            "5a8b281ee3c022a8d0cf74a7"
+        ],
+        "roles": [
+            6
+        ],
+        "createdAt": "2018-03-31T17:54:24.756Z",
+        "_id": "5abe96d3c8f7ba91c3870a47"
     },
     {
-        "_id": "5a6375a6e1986a50012351c8",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "type": 0,
-        "license": 1,
-        "lastName": "simons",
-        "firstName": "tony",
-        "email": "tony@thevalyreangroup5.com"
+        "participantData": {
+            "heartZones": {
+                "shr": 80,
+                "t1": 140,
+                "t2": 170,
+                "peak": 200
+            },
+            "hasPortalAccess": true,
+            "metrics": [],
+            "studentId": 3023,
+            "weight": 160,
+            "heightInches": 96,
+            "walkingStride": 36,
+            "runningStride": 72,
+            "birthdate": "2018-09-28T00:00:00.000Z"
+        },
+        "email": "jamie@test.com",
+        "firstName": "Jamie",
+        "lastName": "Lannister",
+        "facilities": [
+            "5a8b281ee3c022a8d0cf74a7"
+        ],
+        "roles": [
+            0,
+            1
+        ],
+        "createdAt": "2018-03-31T17:54:24.756Z",
+        "_id": "5abe96d3c8f7ba91c3870a48"
     }
 ]
 ```
 
-This endpoint retrieves all licensed users for use in the internal admin pages.
+This endpoint retrieves all licensed users for use by internal admins
 
 ### HTTP Request
 
 `GET http://localhost/api/users`
+
+### Minimum Role Required
+
+`SALES_SUPPORT`
 
 ## Retrieve all internal admin users
 
@@ -171,32 +207,62 @@ curl "http://localhost/api/users/all/internal"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18cb",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "logs": [],
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "license": 1,
-        "type": 0,
+        "email": "roger@test.com",
+        "firstName": "Roger",
+        "lastName": "Federer",
+        "facilities": [
+            "5a8b281ee3c022a8d0cf74a7"
+        ],
+        "roles": [
+            6
+        ],
+        "createdAt": "2018-03-31T18:36:28.030Z",
+        "_id": "5abfd52938cc8ca7ab6dd7ba"
+    },
+    {
+        "license": {
+            "status": 1
+        },
+        "email": "tony@thevalyreangroup.com",
+        "firstName": "Tony",
+        "lastName": "Simons",
         "facilities": [],
-        "lastName": "Harrington",
-        "firstName": "Kit",
-        "email": "kit@test.com"
+        "roles": [
+            5
+        ],
+        "createdAt": "2018-03-31T18:36:28.030Z",
+        "_id": "5abfd52938cc8ca7ab6dd7bd"
+    },
+    {
+        "license": {
+            "status": 1
+        },
+        "email": "bryan@iridiumsoftware.com",
+        "firstName": "Bryan",
+        "lastName": "Bellamy",
+        "facilities": [],
+        "roles": [
+            4,
+            3
+        ],
+        "createdAt": "2018-03-31T18:36:28.030Z",
+        "_id": "5abfd52938cc8ca7ab6dd7be"
     }
 ]
 ```
 
-This endpoint retrieves all internal admin users for use in the internal admin pages, must be at least a `SUB_ADMIN`
+This endpoint retrieves all internal admin users for use in the internal admin pages.
 
 ### HTTP Request
 
 `GET http://localhost/api/users/all/internal`
+
+### Minimum Role Required
+
+`SUB_ADMIN`
 
 ## Retrieve all district admin users
 
@@ -210,23 +276,19 @@ curl "http://localhost/api/users/all/districtAdmins"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18cb",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "logs": [],
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "license": 1,
-        "type": 3,
+        "email": "bryan@iridiumsoftware.com",
+        "firstName": "Bryan",
+        "lastName": "Bellamy",
         "facilities": [],
-        "lastName": "Harrington",
-        "firstName": "Kit",
-        "email": "kit@test.com"
+        "roles": [
+            4,
+            3
+        ],
+        "createdAt": "2018-03-31T18:39:31.678Z",
+        "_id": "5abfd52938cc8ca7ab6dd7be"
     }
 ]
 ```
@@ -236,6 +298,10 @@ This endpoint retrieves all district admin users for use in the internal admin p
 ### HTTP Request
 
 `GET http://localhost/api/users/all/districtAdmins`
+
+### Minimum Role Required
+
+`SALES_SUPPORT`
 
 ## Retrieve all facility admin users
 
@@ -249,22 +315,18 @@ curl "http://localhost/api/users/all/facilityAdmins"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18cd",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "license": 1,
-        "type": 4,
+        "email": "kit@test.com",
+        "firstName": "Kit",
+        "lastName": "Harrington",
         "facilities": [],
-        "lastName": "Bellamy",
-        "firstName": "Bryan",
-        "email": "bryan@iridiumsoftware.com",
+        "roles": [
+            2
+        ],
+        "createdAt": "2018-03-31T18:40:07.802Z",
+        "_id": "5abfd52938cc8ca7ab6dd7bc",
         "totalLogins": 0
     }
 ]
@@ -275,6 +337,10 @@ This endpoint retrieves all district admin users for use in the internal/externa
 ### HTTP Request
 
 `GET http://localhost/api/users/all/facilityAdmins`
+
+### Minimum Role Required
+
+`FACILITY_ADMIN`
 
 ## Retrieve all instructor users
 
@@ -288,37 +354,115 @@ curl "http://localhost/api/users/all/instructors"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18cc",
-        "updatedAt": "2018-01-20T17:00:22.642Z",
-        "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-        "__v": 0,
-        "address": {
-            "createdAt": "2018-01-20T17:00:17.383Z"
+        "license": {
+            "status": 1
         },
-        "createdAt": "2018-01-20T17:00:17.383Z",
-        "passwordReset": false,
-        "deleted": false,
-        "license": 1,
-        "type": 5,
-        "facilities": [],
-        "lastName": "Simons",
-        "firstName": "Tony",
-        "email": "tony@thevalyreangroup.com",
+        "participantData": {
+            "heartZones": {
+                "shr": 80,
+                "t1": 140,
+                "t2": 170,
+                "peak": 200
+            },
+            "hasPortalAccess": true,
+            "metrics": [],
+            "studentId": 3023,
+            "weight": 160,
+            "heightInches": 96,
+            "walkingStride": 36,
+            "runningStride": 72,
+            "birthdate": "2018-09-28T00:00:00.000Z"
+        },
+        "email": "jamie@test.com",
+        "firstName": "Jamie",
+        "lastName": "Lannister",
+        "facilities": [
+            "5a8b281ee3c022a8d0cf74a7"
+        ],
+        "roles": [
+            0,
+            1
+        ],
+        "createdAt": "2018-03-31T18:44:33.303Z",
+        "_id": "5abfd52938cc8ca7ab6dd7bb",
         "totalLogins": 0
     }
 ]
 ```
 
-This endpoint retrieves all instructor users for use in the external admin pages.
+This endpoint retrieves all instructor users for use in the external admin pages. If a `currentFacility` query string is passed in with a facility id, only those users assigned to that facility will be returned.
 
 ### HTTP Request
 
 `GET http://localhost/api/users/all/instructors`
 
+### Minimum Role Required
+
+`FACILITY_ADMIN`
+
+## Retrieve all participant users
+
+```shell
+curl "http://localhost/api/users/all/participants"
+  -H "Authorization: Bearer {token}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+        "license": {
+            "status": 1
+        },
+        "email": "jamie@test.com",
+        "firstName": "Jamie",
+        "lastName": "Lannister",
+        "facilities": [
+            "5a8b281ee3c022a8d0cf74a7"
+        ],
+        "roles": [
+            0,
+            1
+        ],
+        "createdAt": "2018-03-31T20:40:44.037Z",
+        "_id": "5abfea4870fbbfaa64994f66",
+        "classesAttended": 0,
+        "lastClass": "None"
+    },
+    {
+        "license": {
+            "status": 1
+        },
+        "email": "walter@white.com",
+        "firstName": "Walter",
+        "lastName": "White",
+        "facilities": [],
+        "roles": [
+            0
+        ],
+        "createdAt": "2018-03-31T20:40:44.037Z",
+        "_id": "5abfea4870fbbfaa64994f6a",
+        "classesAttended": 0,
+        "lastClass": "None"
+    }
+]
+```
+
+This endpoint retrieves all participant users for use in the external admin pages. If a `currentFacility` query string is passed in with a facility id, only those users assigned to that facility will be returned.
+
+### HTTP Request
+
+`GET http://localhost/api/users/all/participants`
+
+### Minimum Role Required
+
+`INSTRUCTOR`
+
 ## Get a Specific User
 
 ```shell
-curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
+curl "http://localhost/api/users/5abfd52938cc8ca7ab6dd7bd"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -326,21 +470,18 @@ curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
 
 ```json
 {
-    "_id": "5a6375a6e1986a50012351c8",
-    "updatedAt": "2018-01-20T17:00:22.642Z",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-01-20T17:00:17.383Z"
+    "license": {
+        "status": 1
     },
-    "createdAt": "2018-01-20T17:00:17.383Z",
-    "passwordReset": false,
-    "deleted": false,
-    "type": 0,
-    "type": 0,
-    "lastName": "simons",
-    "firstName": "tony",
-    "email": "tony@thevalyreangroup.com"
+    "email": "tony@thevalyreangroup.com",
+    "firstName": "Tony",
+    "lastName": "Simons",
+    "facilities": [],
+    "roles": [
+        5
+    ],
+    "createdAt": "2018-03-31T18:46:16.266Z",
+    "_id": "5abfd52938cc8ca7ab6dd7bd"
 }
 ```
 
@@ -349,6 +490,10 @@ This endpoint takes the user's id as a query parameter and returns the full user
 ### HTTP Request
 
 `GET http://localhost/api/users/<id>`
+
+### Minimum Role Required
+
+NONE
 
 ## Delete a Specific User
 
@@ -371,10 +516,14 @@ This endpoint takes the user's id as a query parameter and returns `200` if succ
 
 `DELETE http://localhost/api/users/<id>`
 
+### Minimum Role Required
+
+`SALES_SUPPORT`
+
 ## Update a Specific User
 
 ```shell
-curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
+curl "http://localhost/api/users/5abfd52938cc8ca7ab6dd7bd"
   -H "Authorization: Bearer {token}"
 ```
 
@@ -382,21 +531,18 @@ curl "http://localhost/api/users/5a72027f4bf51fa978b29033"
 
 ```json
 {
-    "_id": "5a6375a6e1986a50012351c8",
-    "updatedAt": "2018-01-20T17:00:22.642Z",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6InRlc3RpbmcifQ.1Zu7P_364ymSQGUaRR0bMD_NtfGSh0WNT5qV0UxXz-Q",
-    "__v": 0,
-    "address": {
-        "createdAt": "2018-01-20T17:00:17.383Z"
+    "license": {
+        "status": 1
     },
-    "createdAt": "2018-01-20T17:00:17.383Z",
-    "passwordReset": false,
-    "deleted": false,
-    "type": 1,
-    "type": 0,
-    "lastName": "simons",
-    "firstName": "tony",
-    "email": "tony@thevalyreangroup.com"
+    "email": "tony@thevalyreangroup.com",
+    "firstName": "Tony",
+    "lastName": "Simons",
+    "facilities": [],
+    "roles": [
+        5
+    ],
+    "createdAt": "2018-03-31T18:53:13.493Z",
+    "_id": "5abfd52938cc8ca7ab6dd7bd"
 }
 ```
 
@@ -406,6 +552,10 @@ This endpoint takes the user's id as a query parameter and returns the new user 
 
 `PUT http://localhost/api/users/<id>`
 
+### Minimum Role Required
+
+`SALES_SUPPORT` or must be called by the user being updated.
+
 ### Payload parameters
 
 Parameter | Type | Required | Default
@@ -414,21 +564,13 @@ email | string | false |
 password | string | false |
 firstName | string | false |
 lastName | string | false |
-nickName | string | false | null
-facilities | [objectid] | false | null
-phone | string | false | null
-age | integer | false | null
-gender | integer | false | null
-type | integer | false | 0 (see <a href="#account-type">`type`</a>)
-license | integer | false | 1 (see <a href="#license">`license`</a>)
-masterAccount | string | false | null
-deleted | boolean | false | false
-facebookId | string | false | null
-twitterId | string | false | null
-googleId | string | false | null
-passwordReset | boolean | false | false
-picture | objectid | false | null (see <a href="#pictures">`Pictures`</a>)
-address | Address | false | null (see <a href="#address">`address`</a>)
+nickName | string | false |
+phone | string | false |
+age | integer | false |
+gender | integer | false |
+role | [integer] | false | (see <a href="#roles">`ROLES`</a>)
+license | integer | false | (see <a href="#license">`LICENSE`</a>)
+address | Address | false | (see <a href="#address">`ADDRESS`</a>)
 
 ## Request a password reset
 
@@ -450,10 +592,9 @@ This endpoint takes the user's id as a query parameter, flags the user account f
 
 `POST http://localhost/api/users/<id>/requestReset`
 
-### Payload parameters
+### Minimum Role Required
 
-Parameter | Type | Required | Default
---------- | ---- | -------- | -------
+NONE
 
 ## Process a password reset
 
@@ -465,26 +606,18 @@ curl "http://localhost/api/users/resetPassword"
 
 ```json
 {
-    "hashedPassword": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6eyJwYXNzd29yZCI6InRlc3QyIn19.konni4X_m0f7W1zERmBKah_IrpwMSvlfDNAs3h77egk",
-    "_id": "5aa1771ec1558263eb80e7a3",
-    "updatedAt": "2018-03-14T17:40:56.869Z",
-    "token": "23113cd0-1015-11e8-8571-b59c57efe38a",
-    "__v": 1,
-    "address": {
-        "createdAt": "2018-01-20T17:00:17.383Z"
+    "license": {
+        "status": 1
     },
-    "logs": [],
-    "createdAt": "2018-01-20T17:00:17.383Z",
-    "passwordReset": true,
-    "deleted": false,
-    "license": 1,
-    "type": 2,
-    "facilities": [
-        "5a8b281ee3c022a8d0cf74a7"
+    "email": "tony@thevalyreangroup.com",
+    "firstName": "Tony",
+    "lastName": "Simons",
+    "facilities": [],
+    "roles": [
+        5
     ],
-    "lastName": "Lannister",
-    "firstName": "Jamie",
-    "email": "jamie@test.com"
+    "createdAt": "2018-03-31T18:53:13.493Z",
+    "_id": "5abfd52938cc8ca7ab6dd7bd"
 }
 ```
 
@@ -493,6 +626,10 @@ This endpoint takes the user's password `resetToken` and the new password as bod
 ### HTTP Request
 
 `POST http://localhost/api/users/<id>/requestReset`
+
+### Minimum Role Required
+
+NONE
 
 ### Payload parameters
 

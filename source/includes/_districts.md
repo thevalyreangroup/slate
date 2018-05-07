@@ -11,32 +11,33 @@ curl "http://localhost/api/districts"
 
 ```json
 {
-    "__v": 0,
-    "updatedAt": "2018-03-06T17:19:53.186Z",
-    "createdBy": "5a9ec0c3ee8b0bfb4ffc18c9",
-    "_id": "5a9ecdb91f8ab6fc6caf0ff7",
-    "createdAt": "2018-03-06T16:44:24.861Z",
-    "deleted": false,
+    "name": "District 9",
+    "identifier": "54372323",
     "facilities": [],
-    "identifier": "54372",
-    "name": "District 7"
+    "createdAt": "2018-03-31T19:53:34.876Z",
+    "_id": "5abfe75d9ca354a9e7faa2fc",
+    "createdBy": "5abfdeac21aa27a8d32edb94",
+    "updatedAt": "2018-03-31T19:54:05.688Z"
 }
 ```
 
-This endpoint creates a new district. All properties in the model (district.js) are allowed and may be included.
+This endpoint creates a new district.
 
 ### HTTP Request
 
 `POST http://localhost/api/districts`
 
+### Minimum Role Required
+
+`SALES_SUPPORT`
+
 ### Payload parameters
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-admin | objectid | false | The district admin <a href="#users">`User`</a>)
-name | string | true | (see <a href="#facility-type">`address`</a>)
+name | string | true |
 identifier | string | true |
-
+address | Address | false | (see <a href="#address">`ADDRESS`</a>)
 
 ## Get all Districts
 
@@ -50,36 +51,46 @@ curl "http://localhost/api/districts"
 ```json
 [
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18c4",
-        "__v": 0,
-        "updatedAt": "2018-03-06T16:28:31.000Z",
-        "createdBy": "5a8b33d24456d4ad1bd97546",
-        "updatedBy": "5a9ec0c3ee8b0bfb4ffc18c9",
-        "createdAt": "2018-03-06T16:15:20.651Z",
-        "deleted": false,
-        "facilities": [],
+        "name": "District 1",
         "identifier": "5437",
-        "name": "District 1"
+        "facilities": [
+            {
+                "name": "test facility 1",
+                "type": 0,
+                "createdAt": "2018-02-13T17:50:03.778Z",
+                "_id": "5abfe7efdcb36ea9f1fa7c02",
+                "__v": 0,
+                "updatedAt": "2018-02-13T18:01:35.815Z",
+                "createdBy": "5a75ee8b4b8d5fd5797d0863"
+            }
+        ],
+        "createdAt": "2018-03-06T16:15:20.651Z",
+        "_id": "5abfe7efdcb36ea9f1fa7c0c",
+        "updatedAt": "2018-03-31T20:00:31.000Z",
+        "createdBy": "5a8b33d24456d4ad1bd97546",
+        "updatedBy": "5abfe7efdcb36ea9f1fa7c11"
     },
     {
-        "_id": "5a9ec0c3ee8b0bfb4ffc18c5",
-        "__v": 0,
-        "updatedAt": "2018-03-06T16:15:22.756Z",
-        "createdBy": "5a8b33d24456d4ad1bd97546",
-        "createdAt": "2018-03-06T16:15:20.651Z",
-        "deleted": false,
-        "facilities": [],
+        "name": "District 2",
         "identifier": "344347",
-        "name": "District 2"
+        "facilities": [],
+        "createdAt": "2018-03-06T16:15:20.651Z",
+        "_id": "5abfe7efdcb36ea9f1fa7c0d",
+        "updatedAt": "2018-03-06T16:15:22.756Z",
+        "createdBy": "5a8b33d24456d4ad1bd97546"
     }
 ]
 ```
 
-This endpoint returns all districts registered
+This endpoint returns all districts registered.
 
 ### HTTP Request
 
 `GET http://localhost/api/districts`
+
+### Minimum Role Required
+
+`SALES_SUPPORT`
 
 ## Delete a District
 
@@ -102,6 +113,10 @@ This endpoint takes the districts's id as a query parameter and returns `200` if
 
 `DELETE http://localhost/api/districts/<id>`
 
+### Minimum Role Required
+
+`SALES_SUPPORT`
+
 ## Update a District
 
 ```shell
@@ -114,12 +129,10 @@ curl "http://localhost/api/districts/5a9ec0c3ee8b0bfb4ffc18c5"
 ```json
 {
     "_id": "5a9ec0c3ee8b0bfb4ffc18c4",
-    "__v": 0,
     "updatedAt": "2018-03-06T16:28:31.000Z",
     "createdBy": "5a8b33d24456d4ad1bd97546",
     "updatedBy": "5a9ec0c3ee8b0bfb4ffc18c9",
     "createdAt": "2018-03-06T16:15:20.651Z",
-    "deleted": false,
     "facilities": [],
     "identifier": "5437",
     "name": "District 1"
@@ -132,12 +145,17 @@ This endpoint takes the districts's id as a query paramater and returns the new 
 
 `PUT http://localhost/api/facilities/<id>`
 
+### Minimum Role Required
+
+`DISTRICT_ADMIN`
+
 ### Payload parameters
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 name | string | false |
 identifier | integer | false |
+address | Address | false | (see <a href="#address">`ADDRESS`</a>)
 
 ## Add existing Facility to District
 
@@ -165,11 +183,15 @@ curl "http://localhost/api/districts/5a9ec0c3ee8b0bfb4ffc18c4/facilities"
 }
 ```
 
-This endpoint takes the districts's id as a query paramater, and the facility's id as a body property.
+This endpoint takes the districts's id as a query parameter, and the facility's id as a body property.
 
 ### HTTP Request
 
 `POST http://localhost/api/districts/<id>/facilities`
+
+### Minimum Role Required
+
+`DISTRICT_ADMIN`
 
 ### Payload parameters
 
