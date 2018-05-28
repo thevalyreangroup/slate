@@ -306,4 +306,4 @@ curl "http://localhost/api/facilities/5ad14af26ee7f3506ffe38b4/sensorsets/5b0c50
 
 ### HTTP Request
 
-`GET http://localhost/api/facilities/<id>/sensorsets/<sensor_set_id>`
+`DELETE http://localhost/api/facilities/<id>/sensorsets/<sensor_set_id>`

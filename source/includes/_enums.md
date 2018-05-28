@@ -56,5 +56,5 @@ Value | Name
 1 | Power
 2 | Cadence
 3 | Step
-4 | Step & Cadence
+4 | Speed & Cadence
 5 | FIT
