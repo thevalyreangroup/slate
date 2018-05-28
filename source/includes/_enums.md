@@ -46,3 +46,15 @@ Value | Name
 ----- | ----
 0 | Scheduled
 1 | Impromptu
+
+## SENSOR TYPES
+`type`
+
+Value | Name
+----- | ----
+0 | Heart Rate
+1 | Power
+2 | Cadence
+3 | Step
+4 | Step & Cadence
+5 | FIT

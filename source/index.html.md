@@ -13,6 +13,7 @@ includes:
   - class
   - media
   - facilities
+  - sensorsets
   - districts
   - pictures
   - mobile
